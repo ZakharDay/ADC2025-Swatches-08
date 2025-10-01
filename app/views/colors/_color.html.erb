@@ -1,0 +1,27 @@
+<%
+  if color.alpha
+    css_color = "background: rgba(#{color.color[0..1].to_i(16)}, #{color.color[2..3].to_i(16)}, #{color.color[4..5].to_i(16)}, #{color.alpha}%)"
+  else
+    css_color = "background: \##{color.color}"
+  end
+%>
+
+<div id="<%= dom_id color %>">
+  <div class="fillTeaser" style="<%= css_color %>"></div>
+
+  <p>
+    <strong>Stop:</strong>
+    <%= color.stop %>
+  </p>
+
+  <p>
+    <strong>Color:</strong>
+    <%= color.color %>
+  </p>
+
+  <p>
+    <strong>Alpha:</strong>
+    <%= color.alpha %>
+  </p>
+
+</div>

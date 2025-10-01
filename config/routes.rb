@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "welcome/index"
+  get "welcome/about"
+
+  resources :colors
   resources :fills
   resources :swatches
   resources :projects
@@ -13,5 +17,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "projects#index"
+  root "welcome#index"
 end

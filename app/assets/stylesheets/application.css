@@ -30,10 +30,12 @@ body {
 
 .fillCard {
   display: flex;
+  width: 202px;
   flex-direction: column;
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
+  text-decoration: none;
 }
 
 .fillColor {

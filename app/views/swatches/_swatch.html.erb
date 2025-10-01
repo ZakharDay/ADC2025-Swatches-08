@@ -1,5 +1,5 @@
 <div class="swatch" id="<%= dom_id swatch %>">
-  <h2><%= swatch.name %></h2>
+  <h2><%= link_to swatch.name, swatch %></h2>
 
   <div class="fills">
     <%= render swatch.fills %>

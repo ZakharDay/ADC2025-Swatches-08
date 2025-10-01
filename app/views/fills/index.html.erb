@@ -3,14 +3,10 @@
 <% content_for :title, "Fills" %>
 
 <h1>Fills</h1>
+<%= link_to "New fill", new_fill_path %>
 
-<div id="fills">
+<div class="fillsTeaser">
   <% @fills.each do |fill| %>
-    <%= render fill %>
-    <p>
-      <%= link_to "Show this fill", fill %>
-    </p>
+    <%= render "projects/fill", fill: fill %>
   <% end %>
 </div>
-
-<%= link_to "New fill", new_fill_path %>
