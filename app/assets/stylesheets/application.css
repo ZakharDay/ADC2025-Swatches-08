@@ -17,6 +17,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.S_MenuBar {
+  display: flex;
+  justify-content: space-between;
+}
+
 .swatch {
   margin: 60px 0;
 }

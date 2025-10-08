@@ -3,6 +3,7 @@
 
 def seed
   reset_db
+  create_users(10)
   create_projects(100)
   create_swatches(2..8)
   create_fills(2..8)
@@ -25,10 +26,27 @@ def get_random_color
   color_hex.join('')
 end
 
+def create_users(quantity)
+  i = 0
+
+  quantity.times do
+    user_data = {
+      email: "user_#{i}@email.com",
+      password: 'testtest'
+    }
+
+    user = User.create!(user_data)
+    puts "User created with id #{user.id}"
+
+    i += 1
+  end
+end
+
 def create_projects(quantity)
   quantity.times do
-    project = Project.create!(name: @companies.sample)
-    puts "Project with name #{project.name} just created"
+    user = User.all.sample
+    project = user.projects.create!(name: @companies.sample)
+    puts "Project with name #{project.name} for user #{project.user.id} just created"
   end
 end
 
@@ -37,7 +55,7 @@ def create_swatches(quantity)
     i = 1
 
     quantity.to_a.sample.times do
-      swatch = project.swatches.create!(name: "Swatch #{i}")
+      swatch = project.swatches.create!(name: "Swatch #{i}", user: project.user)
       i += 1
       puts "Swatch with name #{swatch.name} for project with name #{swatch.project.name} just created"
     end
@@ -46,7 +64,8 @@ def create_swatches(quantity)
   i = 1
 
   quantity.to_a.sample.times do
-    swatch = Swatch.create!(name: "Swatch #{i}")
+    user = User.all.sample
+    swatch = Swatch.create!(name: "Swatch #{i}", user: user)
     i += 1
     puts "Swatch with name #{swatch.name} just created"
   end
@@ -57,7 +76,7 @@ def create_fills(quantity)
     i = 1
 
     quantity.to_a.sample.times do
-      fill = swatch.fills.create!(name: "--color-#{i}")
+      fill = swatch.fills.create!(name: "--color-#{i}", user: swatch.user)
       i += 1
       puts "Fill with var name #{fill.name} for swatch with name #{fill.swatch.name} just created"
     end
@@ -86,9 +105,9 @@ end
 
 def create_fill_color(fill, alpha)
   if alpha
-    color = fill.colors.create(color: get_random_color, alpha: alpha)
+    color = fill.colors.create(color: get_random_color, alpha: alpha, user: fill.user)
   else
-    color = fill.colors.create(color: get_random_color)
+    color = fill.colors.create(color: get_random_color, user: fill.user)
   end
 
   puts "Color ##{color.color} just created"
@@ -119,7 +138,7 @@ def create_gradient_color(fill, alpha)
       stop = first_stop + (step * (i - 1))
     end
 
-    color = fill.colors.create!(stop: stop, color: get_random_color)
+    color = fill.colors.create!(stop: stop, color: get_random_color, user: fill.user)
     puts "Color ##{color.color} just created"
 
     i += 1

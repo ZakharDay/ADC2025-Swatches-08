@@ -1,8 +1,19 @@
 <nav class="S_MenuBar">
-  <%= link_to "Главная", root_url %>
-  <%= link_to "Проекты", projects_url %>
-  <%= link_to "Цветовые наборы", swatches_url %>
-  <%= link_to "Заливки", fills_url %>
-  <%#= link_to "Цвета", colors_url %>
-  <%= link_to "О проекте", welcome_about_url %>
+  <div>
+    <%= link_to "Главная", root_url %>
+    <%= link_to "Проекты", projects_url %>
+    <%= link_to "Цветовые наборы", swatches_url %>
+    <%= link_to "Заливки", fills_url %>
+    <%#= link_to "Цвета", colors_url %>
+  </div>
+
+  <div>
+    <% if user_signed_in? %>
+      <%= link_to current_user.email, edit_user_registration_path %>
+      <%= link_to "Выйти", destroy_user_session_path, data: { "turbo-method": :delete } %>
+    <% else %>
+      <%= link_to "Войти", new_user_session_path %>
+      <%= link_to "Зарегистрироваться", new_user_registration_path %>
+    <% end %>
+  </div>
 </nav>

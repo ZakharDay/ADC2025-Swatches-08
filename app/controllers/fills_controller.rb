@@ -1,9 +1,10 @@
 class FillsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_fill, only: %i[ show edit update destroy ]
 
   # GET /fills or /fills.json
   def index
-    @fills = Fill.all
+    @fills = current_user.fills
   end
 
   # GET /fills/1 or /fills/1.json

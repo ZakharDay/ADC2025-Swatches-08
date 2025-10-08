@@ -1,9 +1,10 @@
 class ColorsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_color, only: %i[ show edit update destroy ]
 
   # GET /colors or /colors.json
   def index
-    @colors = Color.all
+    @colors = current_user.colors
   end
 
   # GET /colors/1 or /colors/1.json
