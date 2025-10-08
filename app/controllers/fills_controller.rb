@@ -1,10 +1,33 @@
 class FillsController < ApplicationController
+  layout "application", only: %i[ show new edit create update destroy ]
   before_action :authenticate_user!
   before_action :set_fill, only: %i[ show edit update destroy ]
 
   # GET /fills or /fills.json
   def index
     @fills = current_user.fills
+  end
+
+  def solid
+    fills = current_user.fills
+    @fills = []
+
+    fills.each do |fill|
+      if fill.colors.count == 1
+        @fills << fill
+      end
+    end
+  end
+
+  def gradient
+    fills = current_user.fills
+    @fills = []
+
+    fills.each do |fill|
+      if fill.colors.count > 1
+        @fills << fill
+      end
+    end
   end
 
   # GET /fills/1 or /fills/1.json

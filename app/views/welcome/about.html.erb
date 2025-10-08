@@ -1,4 +1,4 @@
-<h1>Welcome#about</h1>
-<p>Find me in app/views/welcome/about.html.erb</p>
+<% content_for :title, "О проекте" %>
 
+<h1><%= content_for(:title) %></h1>
 <p>Здесь верстаем страницу о проекте</p>

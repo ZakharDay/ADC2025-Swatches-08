@@ -4,8 +4,14 @@ Rails.application.routes.draw do
   get "welcome/index"
   get "welcome/about"
 
+  resources :fills do
+    collection do
+      get "solid"
+      get "gradient"
+    end
+  end
+
   resources :colors
-  resources :fills
   resources :swatches
   resources :projects
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
