@@ -1,6 +1,6 @@
 class FillsController < ApplicationController
+  load_and_authorize_resource
   layout "application", only: %i[ show new edit create update destroy ]
-  before_action :authenticate_user!
   before_action :set_fill, only: %i[ show edit update destroy ]
 
   # GET /fills or /fills.json
