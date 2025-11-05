@@ -4,16 +4,26 @@ Rails.application.routes.draw do
   get "welcome/index"
   get "welcome/about"
 
-  resources :fills do
-    collection do
-      get "solid"
-      get "gradient"
+  resources :subscriptions, only: :create
+
+  namespace :admin do
+    resources :fills do
+      collection do
+        get "solid"
+        get "gradient"
+      end
     end
+
+    resources :colors
+    resources :swatches
+
+    resources :projects do
+      resources :swatches
+    end
+
+    resources :subscriptions
   end
 
-  resources :colors
-  resources :swatches
-  resources :projects
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

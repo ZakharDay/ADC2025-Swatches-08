@@ -1,0 +1,8 @@
+<div class="swatch" id="<%= dom_id swatch %>">
+  <h2><%= link_to swatch.name, [:admin, swatch] %></h2>
+  <p><%= link_to "Edit swatch", edit_admin_project_swatch_path(@project) %></p>
+
+  <div class="fills">
+    <%= render swatch.fills %>
+  </div>
+</div>

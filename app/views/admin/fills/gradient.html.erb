@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Градиенты" %>
+
+<h2><%= content_for(:title) %></h2>
+
+<div class="fillsTeaser">
+  <% @fills.each do |fill| %>
+    <%= render "admin/projects/fill", fill: fill %>
+  <% end %>
+</div>
