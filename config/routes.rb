@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, format: 'json' do
     namespace :v1 do
       resources :subscriptions, only: :create
-      get "welcome/preview"
+      resources :swatches, only: [:index, :show]
     end
   end
 

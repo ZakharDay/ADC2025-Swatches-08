@@ -4,10 +4,10 @@ class Swatch < ApplicationRecord
   belongs_to :project, optional: true
   validates :name, presence: true
 
-  def as_json
-    {
-      name: name,
-      fills: fills
-    }
-  end
+  # def as_json
+  #   {
+  #     name: name,
+  #     fills: fills
+  #   }
+  # end
 end

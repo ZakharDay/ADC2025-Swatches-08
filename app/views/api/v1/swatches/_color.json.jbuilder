@@ -1,0 +1,1 @@
+json.extract! color, :stop, :color, :alpha
