@@ -1,0 +1,17 @@
+<div class="swatch" id="<%= dom_id swatch %>">
+  <h2><%= link_to swatch.name, swatch %></h2>
+
+  <% if can? :edit, swatch %>
+    <p><%= link_to "Edit swatch", edit_swatch_path(swatch) %></p>
+  <% else %>
+    <p><%= link_to "Fork swatch", fork_swatch_path(swatch) %></p>
+  <% end %>
+
+  <div class="fills">
+    <% if swatch.origin_id == nil %>
+      <%= render swatch.fills %>
+    <% else %>
+      <%= render swatch.origin.fills %>
+    <% end %>
+  </div>
+</div>

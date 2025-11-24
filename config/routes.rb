@@ -1,6 +1,29 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  resources :fills do
+    collection do
+      get "solid"
+      get "gradient"
+    end
+  end
+
+  resources :colors
+
+  resources :swatches do
+    collection do
+      get "my"
+    end
+
+    member do
+      get "fork"
+    end
+  end
+
+  resources :projects do
+    resources :swatches
+  end
+
   namespace :api, format: 'json' do
     namespace :v1 do
       resources :subscriptions, only: :create

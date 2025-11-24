@@ -10,17 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_15_123343) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_12_130058) do
   create_table "colors", force: :cascade do |t|
-    t.integer "stop"
-    t.string "color"
-    t.integer "alpha"
-    t.integer "fill_id", null: false
-    t.integer "user_id", null: false
+    t.string "rgb_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fill_id"], name: "index_colors_on_fill_id"
-    t.index ["user_id"], name: "index_colors_on_user_id"
   end
 
   create_table "fills", force: :cascade do |t|
@@ -29,6 +23,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_123343) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "origin_id"
     t.index ["swatch_id"], name: "index_fills_on_swatch_id"
     t.index ["user_id"], name: "index_fills_on_user_id"
   end
@@ -54,6 +49,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_123343) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "origin_id"
     t.index ["user_id"], name: "index_swatches_on_user_id"
   end
 
@@ -70,8 +66,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_123343) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "colors", "fills"
-  add_foreign_key "colors", "users"
   add_foreign_key "fills", "swatches"
   add_foreign_key "fills", "users"
   add_foreign_key "projects", "users"

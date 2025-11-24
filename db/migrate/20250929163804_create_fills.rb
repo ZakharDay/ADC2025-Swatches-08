@@ -2,8 +2,11 @@ class CreateFills < ActiveRecord::Migration[8.0]
   def change
     create_table :fills do |t|
       t.string :name
-      t.references :swatch, null: false, foreign_key: true
-      t.references :user, null: false, foreign_key: true
+      t.integer :stop
+      t.integer :alpha
+      t.belongs_to :swatch
+      t.belongs_to :color
+      t.belongs_to :user
 
       t.timestamps
     end

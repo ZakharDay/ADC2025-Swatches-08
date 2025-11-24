@@ -3,12 +3,14 @@
 
 def seed
   reset_db
-  # create_users(10)
+
+  create_colors
+
+  create_users(10)
   create_admin_user
-  create_projects(20)
+  create_projects(40)
   create_swatches(2..8)
   create_fills(2..8)
-  create_colors
 end
 
 def reset_db
@@ -88,34 +90,74 @@ def create_fills(quantity)
     i = 1
 
     quantity.to_a.sample.times do
-      fill = swatch.fills.create!(name: "--color-#{i}", user: swatch.user)
+      fill = swatch.fills.create!(name: "color-#{i}", user: swatch.user)
       i += 1
       puts "Fill with var name #{fill.name} for swatch with name #{fill.swatch.name} just created"
     end
   end
 end
 
+# def create_colors
+#   Fill.all.each do |fill|
+#     type = ['solid', 'gradient'].to_a.sample
+
+#     alpha_chance = (0..9).to_a.sample
+
+#     if alpha_chance == 5
+#       alpha = (0..99).to_a.sample
+#     else
+#       alpha = nil
+#     end
+
+#     if type == 'solid'
+#       create_fill_color(fill, alpha)
+#     elsif type == 'gradient'
+#       create_gradient_color(fill, alpha)
+#     end
+#   end
+# end
+
 def create_colors
-  Fill.all.each do |fill|
-    type = ['solid', 'gradient'].to_a.sample
+  # (0..255).each do |r|
+  #   (0..255).each do |g|
+  #     (0..255).each do |b|
+  (100..120).each do |r|
+    (100..120).each do |g|
+      (100..120).each do |b|
+        # Format each component as a two-digit hexadecimal string
+        hex_r = '%02x' % r
+        hex_g = '%02x' % g
+        hex_b = '%02x' % b
 
-    alpha_chance = (0..9).to_a.sample
+        # Combine them into a full hex color string
+        rgb_hash = "#{hex_r}#{hex_g}#{hex_b}"
 
-    if alpha_chance == 5
-      alpha = (0..99).to_a.sample
-    else
-      alpha = nil
-    end
-
-    if type == 'solid'
-      create_fill_color(fill, alpha)
-    elsif type == 'gradient'
-      create_gradient_color(fill, alpha)
+        color = Color.create!(rgb_hash: rgb_hash)
+        puts "Color ##{color.rgb_hash} just created"
+      end
     end
   end
 end
 
-def create_fill_color(fill, alpha)
+def choose_color
+  type = ['solid', 'gradient'].to_a.sample
+
+  alpha_chance = (0..9).to_a.sample
+
+  if alpha_chance == 5
+    alpha = (0..99).to_a.sample
+  else
+    alpha = nil
+  end
+
+  if type == 'solid'
+    create_fill_color(fill, alpha)
+  elsif type == 'gradient'
+    create_gradient_color(fill, alpha)
+  end
+end
+
+def create_plain_color(fill, alpha)
   if alpha
     color = fill.colors.create(color: get_random_color, alpha: alpha, user: fill.user)
   else
