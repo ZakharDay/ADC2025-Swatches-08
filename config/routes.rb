@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resources :swatches
   end
 
+  resources :comments, only: [:create, :update, :destroy]
+
   namespace :api, format: 'json' do
     namespace :v1 do
       resources :subscriptions, only: :create
@@ -53,6 +55,10 @@ Rails.application.routes.draw do
 
   get "welcome/index"
   get "welcome/about"
+
+  get "profile/show"
+  get "profile/edit"
+  patch "profile/update"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

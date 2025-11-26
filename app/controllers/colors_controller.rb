@@ -4,7 +4,7 @@ class ColorsController < ApplicationController
 
   # GET /colors or /colors.json
   def index
-    @colors = current_user.colors
+    @colors = Color.all
   end
 
   # GET /colors/1 or /colors/1.json

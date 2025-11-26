@@ -6,11 +6,17 @@ def seed
 
   create_colors
 
-  create_users(10)
   create_admin_user
-  create_projects(40)
-  create_swatches(2..8)
-  create_fills(2..8)
+  create_users(10)
+
+  create_projects(30)
+  create_swatches(100..200)
+  create_fills(200..300)
+  create_comments(2..10)
+
+  add_swatches_to_projects
+  add_fills_to_swatches
+  add_colors_to_fills
 end
 
 def reset_db
@@ -29,6 +35,42 @@ def get_random_color
   color_hex.join('')
 end
 
+def create_colors
+  # (0..255).each do |r|
+  #   (0..255).each do |g|
+  #     (0..255).each do |b|
+
+  color_range = (0..3).to_a + (50..53).to_a + (100..103).to_a + (150..153).to_a + (200..203).to_a + (250..253).to_a
+
+  color_range.each do |r|
+    color_range.each do |g|
+      color_range.each do |b|
+        # Format each component as a two-digit hexadecimal string
+        hex_r = '%02x' % r
+        hex_g = '%02x' % g
+        hex_b = '%02x' % b
+
+        # Combine them into a full hex color string
+        rgb_hash = "#{hex_r}#{hex_g}#{hex_b}"
+
+        color = Color.create!(rgb_hash: rgb_hash)
+        puts "Color ##{color.rgb_hash} just created"
+      end
+    end
+  end
+end
+
+def create_admin_user
+  user_data = {
+    email: "admin@email.com",
+    password: 'testtest',
+    admin: true
+  }
+
+  user = User.create!(user_data)
+  puts "User created with id #{user.id}"
+end
+
 def create_users(quantity)
   i = 0
 
@@ -45,17 +87,6 @@ def create_users(quantity)
   end
 end
 
-def create_admin_user
-  user_data = {
-    email: "admin@email.com",
-    password: 'testtest',
-    admin: true
-  }
-
-  user = User.create!(user_data)
-  puts "User created with id #{user.id}"
-end
-
 def create_projects(quantity)
   quantity.times do
     user = User.all.sample
@@ -65,16 +96,6 @@ def create_projects(quantity)
 end
 
 def create_swatches(quantity)
-  Project.all.each do |project|
-    i = 1
-
-    quantity.to_a.sample.times do
-      swatch = project.swatches.create!(name: "Swatch #{i}", user: project.user)
-      i += 1
-      puts "Swatch with name #{swatch.name} for project with name #{swatch.project.name} just created"
-    end
-  end
-
   i = 1
 
   quantity.to_a.sample.times do
@@ -86,90 +107,79 @@ def create_swatches(quantity)
 end
 
 def create_fills(quantity)
+  quantity.to_a.sample.times do
+    user = User.all.sample
+    fill = user.fills.create!(name: "Color")
+    puts "Fill with var name #{fill.name} just created"
+  end
+end
+
+def create_comments(quantity)
   Swatch.all.each do |swatch|
-    i = 1
-
     quantity.to_a.sample.times do
-      fill = swatch.fills.create!(name: "color-#{i}", user: swatch.user)
-      i += 1
-      puts "Fill with var name #{fill.name} for swatch with name #{fill.swatch.name} just created"
+      user = User.all.sample
+      comment = user.comments.create!(body: "Text", commentable_type: swatch.class.name, commentable_id: swatch.id )
+      puts "Comment with id #{comment.id} created"
+    end
+  end
+
+  Fill.all.each do |fill|
+    quantity.to_a.sample.times do
+      user = User.all.sample
+      comment = user.comments.create!(body: "Text", commentable_type: fill.class.name, commentable_id: fill.id )
+      puts "Comment with id #{comment.id} created"
     end
   end
 end
 
-# def create_colors
-#   Fill.all.each do |fill|
-#     type = ['solid', 'gradient'].to_a.sample
+def add_swatches_to_projects
+  swatches = Swatch.all
 
-#     alpha_chance = (0..9).to_a.sample
-
-#     if alpha_chance == 5
-#       alpha = (0..99).to_a.sample
-#     else
-#       alpha = nil
-#     end
-
-#     if type == 'solid'
-#       create_fill_color(fill, alpha)
-#     elsif type == 'gradient'
-#       create_gradient_color(fill, alpha)
-#     end
-#   end
-# end
-
-def create_colors
-  # (0..255).each do |r|
-  #   (0..255).each do |g|
-  #     (0..255).each do |b|
-  (100..120).each do |r|
-    (100..120).each do |g|
-      (100..120).each do |b|
-        # Format each component as a two-digit hexadecimal string
-        hex_r = '%02x' % r
-        hex_g = '%02x' % g
-        hex_b = '%02x' % b
-
-        # Combine them into a full hex color string
-        rgb_hash = "#{hex_r}#{hex_g}#{hex_b}"
-
-        color = Color.create!(rgb_hash: rgb_hash)
-        puts "Color ##{color.rgb_hash} just created"
-      end
+  swatches.each do |swatch|
+    if (0..9).to_a.sample != 0
+      Project.all.sample.swatches << swatch
+      puts "Swatch with id #{swatch.id} just added to project with id #{swatch.project.id}"
     end
   end
 end
 
-def choose_color
-  type = ['solid', 'gradient'].to_a.sample
+def add_fills_to_swatches
+  fills = Fill.all
 
-  alpha_chance = (0..9).to_a.sample
+  fills.each do |fill|
+    if (0..9).to_a.sample != 0
+      swatch = Swatch.all.sample
+      fill.swatches << swatch
 
-  if alpha_chance == 5
-    alpha = (0..99).to_a.sample
-  else
-    alpha = nil
-  end
+      # Проверка
+      # swatch_fill = swatch.swatches_fills.where(fill_id: fill.id).first
+      # puts "Swatch Fill join #{swatch_fill.fill.id} #{swatch_fill.swatch.id}"
 
-  if type == 'solid'
-    create_fill_color(fill, alpha)
-  elsif type == 'gradient'
-    create_gradient_color(fill, alpha)
+      puts "Fill with id #{fill.id} just added to swatch with id #{swatch.id}"
+    end
   end
 end
 
-def create_plain_color(fill, alpha)
-  if alpha
-    color = fill.colors.create(color: get_random_color, alpha: alpha, user: fill.user)
-  else
-    color = fill.colors.create(color: get_random_color, user: fill.user)
-  end
+def add_colors_to_fills
+  Fill.all.each do |fill|
+    type = ['solid', 'gradient'].sample
 
-  puts "Color ##{color.color} just created"
-  
-  color
+    if type == 'solid'
+      create_fill_color(fill)
+    elsif type == 'gradient'
+      create_gradient_color(fill)
+    end
+  end
 end
 
-def create_gradient_color(fill, alpha)
+def create_fill_color(fill)
+  color = Color.all.sample
+  fill.colors << color
+
+  puts "Color ##{color.rgb_hash} just added to fill with id #{fill.id}"
+end
+
+def create_gradient_color(fill)
   quantity = (2..5).to_a.sample
   first_stop = (0..40).to_a.sample
   last_stop = (60..100).to_a.sample
@@ -177,6 +187,12 @@ def create_gradient_color(fill, alpha)
   if quantity > 2
     range = last_stop - first_stop
     step = range / (quantity - 1)
+  end
+
+  if (0..9).to_a.sample == 0
+    alpha = (0..99).to_a.sample
+  else
+    alpha = nil
   end
 
   i = 1
@@ -192,8 +208,10 @@ def create_gradient_color(fill, alpha)
       stop = first_stop + (step * (i - 1))
     end
 
-    color = fill.colors.create!(stop: stop, color: get_random_color, user: fill.user)
-    puts "Color ##{color.color} just created"
+    color = Color.all.sample
+    fill_color = FillsColors.create!(fill_id: fill.id, color_id: color.id, stop: stop, alpha: alpha)
+
+    puts "Color ##{color.rgb_hash} just added to fill with id #{fill.id}"
 
     i += 1
   end
