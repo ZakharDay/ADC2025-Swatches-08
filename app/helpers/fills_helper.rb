@@ -10,7 +10,7 @@ module FillsHelper
       #   colors << "##{color.rgb_hash} #{color.stop}%"
       # end
 
-      fill.fills_colors.each do |fill_color|
+      fill.fill_colors.each do |fill_color|
         colors << "##{fill_color.color.rgb_hash} #{fill_color.stop}%"
       end
 

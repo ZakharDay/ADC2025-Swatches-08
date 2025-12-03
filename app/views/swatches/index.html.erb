@@ -1,6 +1,17 @@
-<p style="color: green"><%= notice %></p>
+<%
+  set_meta_tags(
+    title: "Swatches",
+    description: "Swatches with color fills",
+    keywords: "design, colors",
+    og: {
+      title: "Swatches",
+      type: "website",
+      url: swatches_url
+    }
+  )
+%>
 
-<% content_for :title, "Swatches" %>
+<p style="color: green"><%= notice %></p>
 
 <h1>Swatches</h1>
 <%= link_to "New swatch", new_swatch_path %>

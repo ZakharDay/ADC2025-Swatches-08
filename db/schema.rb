@@ -28,6 +28,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_165655) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "fill_colors", force: :cascade do |t|
+    t.integer "alpha"
+    t.integer "color_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "fill_id", null: false
+    t.integer "stop"
+    t.datetime "updated_at", null: false
+    t.index ["color_id"], name: "index_fill_colors_on_color_id"
+    t.index ["fill_id"], name: "index_fill_colors_on_fill_id"
+  end
+
   create_table "fills", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -35,17 +46,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_165655) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_fills_on_user_id"
-  end
-
-  create_table "fills_colors", force: :cascade do |t|
-    t.integer "alpha"
-    t.integer "color_id", null: false
-    t.datetime "created_at", null: false
-    t.integer "fill_id", null: false
-    t.integer "stop"
-    t.datetime "updated_at", null: false
-    t.index ["color_id"], name: "index_fills_colors_on_color_id"
-    t.index ["fill_id"], name: "index_fills_colors_on_fill_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -72,6 +72,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_165655) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "swatch_fills", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "fill_id", null: false
+    t.integer "swatch_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fill_id"], name: "index_swatch_fills_on_fill_id"
+    t.index ["swatch_id"], name: "index_swatch_fills_on_swatch_id"
+  end
+
   create_table "swatches", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -81,15 +90,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_165655) do
     t.integer "user_id", null: false
     t.index ["project_id"], name: "index_swatches_on_project_id"
     t.index ["user_id"], name: "index_swatches_on_user_id"
-  end
-
-  create_table "swatches_fills", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "fill_id", null: false
-    t.integer "swatch_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fill_id"], name: "index_swatches_fills_on_fill_id"
-    t.index ["swatch_id"], name: "index_swatches_fills_on_swatch_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -106,13 +106,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_165655) do
   end
 
   add_foreign_key "comments", "users"
+  add_foreign_key "fill_colors", "colors"
+  add_foreign_key "fill_colors", "fills"
   add_foreign_key "fills", "users"
-  add_foreign_key "fills_colors", "colors"
-  add_foreign_key "fills_colors", "fills"
   add_foreign_key "profiles", "users"
   add_foreign_key "projects", "users"
+  add_foreign_key "swatch_fills", "fills"
+  add_foreign_key "swatch_fills", "swatches"
   add_foreign_key "swatches", "projects"
   add_foreign_key "swatches", "users"
-  add_foreign_key "swatches_fills", "fills"
-  add_foreign_key "swatches_fills", "swatches"
 end

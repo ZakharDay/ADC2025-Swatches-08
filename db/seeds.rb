@@ -209,7 +209,7 @@ def create_gradient_color(fill)
     end
 
     color = Color.all.sample
-    fill_color = FillsColors.create!(fill_id: fill.id, color_id: color.id, stop: stop, alpha: alpha)
+    fill_color = FillColor.create!(fill_id: fill.id, color_id: color.id, stop: stop, alpha: alpha)
 
     puts "Color ##{color.rgb_hash} just added to fill with id #{fill.id}"
 

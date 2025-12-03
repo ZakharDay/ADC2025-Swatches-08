@@ -1,3 +1,38 @@
+<%#
+  set_meta_tags(
+    title: @project.name,
+    description: "Project with color swatches",
+    keywords: "design, colors",
+    og: {
+      title: @project.name,
+      type: "website",
+      url: project_url(@project),
+      image: "http://ia.media-imdb.com/rock.jpg"
+    },
+    article: {
+      published_time: "2013-09-17T05:59:00+01:00",
+      modified_time: "2013-09-16T19:08:47+01:00",
+      section: "Article Section",
+      tag: "Article Tag"
+    }
+  )
+%>
+
+<%
+  set_meta_tags(
+    title: @project.name,
+    description: "Project with color swatches",
+    keywords: "design, colors",
+    og: {
+      title: @project.name,
+      type: "website",
+      url: project_url(@project)
+    }
+  )
+%>
+
+<% content_for :title, @project.name %>
+
 <p style="color: green"><%= notice %></p>
 
 <h1><%= @project.name %></h1>

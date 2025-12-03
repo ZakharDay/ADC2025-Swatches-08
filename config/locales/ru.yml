@@ -27,9 +27,30 @@
 #       "yes": yup
 #       enabled: "ON"
 
-en:
-  hello: 'Hello world'
+ru:
+  hello: 'Здравствуй Мир!'
+
   comment:
-    zero: 'comments'
-    one: 'comment'
-    other: 'comments'
+    zero: 'комментариев'
+    one: 'комментарий'
+    few: 'комментария'
+    other: 'комментариев'
+
+  activerecord:
+    models:
+      swatch: Палитра
+      fill: Заливка
+      color: Цвет
+      project: Проект
+      profile: Профиль
+    attributes:
+      swatch:
+        name: Название
+        project_id: Проект
+      fill:
+        name: Название
+      project:
+        name: Название
+        description: Описание
+      profile:
+        name: Имя

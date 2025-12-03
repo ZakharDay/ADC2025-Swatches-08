@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
   resources :subscriptions, only: :create
 
+  get "language", to: "welcome#language"
+
   get "welcome/index"
   get "welcome/about"
 

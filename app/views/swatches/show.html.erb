@@ -1,5 +1,36 @@
-<p style="color: green"><%= notice %></p>
+<%
+  set_meta_tags(
+    title: @swatch.name,
+    description: "Swatch with color fills",
+    keywords: "design, colors",
+    og: {
+      title: @swatch.name,
+      type: "website",
+      url: params[:project_id] ? project_swatch_url(@swatch.project, @swatch) : swatch_url(@swatch)
+    }
+  )
+%>
 
+<% content_for :breadcrumbs do %>
+  <nav class="breadcrumbs">
+    <% if params[:project_id] %>
+      <% project = @swatch.project %>
+
+      <%= link_to "Projects", projects_path %>
+      /
+      <%= link_to project.name, project_path(project) %>
+      /
+      <%= link_to @swatch.name, project_swatch_path(project, @swatch) %>
+    <% else %>
+      <%= link_to "Swatches", swatches_path %>
+      /
+      <%= link_to @swatch.name, swatch_path(@swatch) %>
+    <% end %>
+  </nav>
+<% end %>
+
+<p style="color: green"><%= notice %></p>
+<h1>Swatch</h1>
 <%= render @swatch %>
 
 <% if can? :manage, @swatch %>
@@ -8,5 +39,10 @@
     <%= link_to "Destroy this swatch", @swatch, data: { turbo_stream: false, turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
   </div>
 <% end %>
+
+<h3>
+  <%= @swatch.comments.count %>
+  <%= I18n.translate 'comment', count: @swatch.comments.count %>
+</h3>
 
 <%= render @swatch.comments %>

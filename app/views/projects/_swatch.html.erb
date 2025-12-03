@@ -1,5 +1,5 @@
 <div class="swatch" id="<%= dom_id swatch %>">
-  <h2><%= link_to swatch.name, swatch %></h2>
+  <h2><%= link_to swatch.name, project_swatch_path(@project, swatch) %></h2>
   <p><%= link_to "Edit swatch", edit_project_swatch_path(@project) %></p>
 
   <div class="fills">

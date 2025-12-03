@@ -1,6 +1,17 @@
-<p style="color: green"><%= notice %></p>
+<%
+  set_meta_tags(
+    title: "Projects",
+    description: "Projects with color swatches",
+    keywords: "design, colors",
+    og: {
+      title: "Projects",
+      type: "website",
+      url: projects_url
+    }
+  )
+%>
 
-<% content_for :title, "Projects" %>
+<p style="color: green"><%= notice %></p>
 
 <h1>Projects</h1>
 

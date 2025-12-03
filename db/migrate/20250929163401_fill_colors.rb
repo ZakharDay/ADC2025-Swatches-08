@@ -1,6 +1,6 @@
-class FillsColors < ActiveRecord::Migration[8.1]
+class FillColors < ActiveRecord::Migration[8.1]
   def change
-    create_table :fills_colors do |t|
+    create_table :fill_colors do |t|
       t.belongs_to :fill, null: false, foreign_key: true
       t.belongs_to :color, null: false, foreign_key: true
       t.integer :stop
