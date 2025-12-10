@@ -10,6 +10,7 @@ class Ability
     can :read, :all
     can :manage, :all, user: user
     can :fork, Swatch
+    can :comments, Swatch
     # can :manage, [Project, Swatch, Fill, Color, Subscription], user: user
 
     return unless user.admin?

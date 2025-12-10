@@ -6,6 +6,11 @@ Rails.application.routes.draw do
       get "solid"
       get "gradient"
     end
+
+    member do
+      get "fork"
+      post "comments"
+    end
   end
 
   resources :colors
@@ -17,6 +22,7 @@ Rails.application.routes.draw do
 
     member do
       get "fork"
+      post "comments"
     end
   end
 

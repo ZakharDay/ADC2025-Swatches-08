@@ -12,4 +12,13 @@
   </div>
 <% end %>
 
+<h3>
+  <%= @fill.comments.count %>
+  <%= I18n.translate 'comment', count: @fill.comments.count %>
+</h3>
+
+<div>
+  <%= render "comments/form", comment: Comment.new, fill: @fill %>
+</div>
+
 <%= render @fill.comments %>

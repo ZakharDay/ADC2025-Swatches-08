@@ -1,7 +1,7 @@
 class FillsController < ApplicationController
   load_and_authorize_resource
   layout "application", only: %i[ show new edit create update destroy ]
-  before_action :set_fill, only: %i[ show edit update destroy ]
+  before_action :set_fill, only: %i[ show edit update destroy comments ]
 
   # GET /fills or /fills.json
   def index
@@ -78,6 +78,15 @@ class FillsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to fills_path, notice: "Fill was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
+    end
+  end
+
+  def comments
+    comment = @fill.comments.new(body: params[:comment][:body])
+    comment.user_id = current_user.id
+
+    if comment.save
+      redirect_to @fill
     end
   end
 

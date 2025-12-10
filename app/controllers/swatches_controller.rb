@@ -1,6 +1,6 @@
 class SwatchesController < ApplicationController
   load_and_authorize_resource
-  before_action :set_swatch, only: %i[ fork show edit update destroy ]
+  before_action :set_swatch, only: %i[ fork show edit update destroy comments ]
 
   # GET /swatches or /swatches.json
   def index
@@ -80,6 +80,15 @@ class SwatchesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to swatches_path, notice: "Swatch was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
+    end
+  end
+
+  def comments
+    comment = @swatch.comments.new(body: params[:comment][:body])
+    comment.user_id = current_user.id
+
+    if comment.save
+      redirect_to @swatch
     end
   end
 
