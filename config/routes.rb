@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :fills do
     collection do
+      get "my"
       get "solid"
       get "gradient"
     end
@@ -30,7 +31,7 @@ Rails.application.routes.draw do
     resources :swatches
   end
 
-  resources :comments, only: [:create, :update, :destroy]
+  resources :comments, only: [:show, :create, :edit, :update, :destroy]
 
   namespace :api, format: 'json' do
     namespace :v1 do

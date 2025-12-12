@@ -20,6 +20,7 @@
       <%#= link_to current_user.email, edit_user_registration_path %>
       <%= link_to "Проекты",  projects_url %>
       <%= link_to "Палитры",  my_swatches_url %>
+      <%= link_to "Заливки",  my_fills_url %>
       <%= link_to "Профиль",  profile_show_url %>
       <%= link_to "Выйти", destroy_user_session_path, data: { "turbo-method": :delete } %>
     <% else %>

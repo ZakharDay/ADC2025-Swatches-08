@@ -5,11 +5,16 @@ class FillsController < ApplicationController
 
   # GET /fills or /fills.json
   def index
-    @fills = current_user.fills
+    @fills = Fill.all
+  end
+
+  def my
+    @fills = current_user.fills #.where(project_id: nil)
+    render :index
   end
 
   def solid
-    fills = current_user.fills
+    fills = Fill.all
     @fills = []
 
     fills.each do |fill|
@@ -20,7 +25,7 @@ class FillsController < ApplicationController
   end
 
   def gradient
-    fills = current_user.fills
+    fills = Fill.all
     @fills = []
 
     fills.each do |fill|

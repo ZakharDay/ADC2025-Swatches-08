@@ -40,13 +40,4 @@
   </div>
 <% end %>
 
-<h3>
-  <%= @swatch.comments.count %>
-  <%= I18n.translate 'comment', count: @swatch.comments.count %>
-</h3>
-
-<div>
-  <%= render "comments/form", comment: Comment.new, swatch: @swatch %>
-</div>
-
-<%= render @swatch.comments %>
+<%= render "comments/comments", commentable: @swatch %>
