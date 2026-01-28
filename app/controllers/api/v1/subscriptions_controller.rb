@@ -1,6 +1,6 @@
 class Api::V1::SubscriptionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  
+
   def create
     @subscription = Subscription.new(subscription_params)
 
