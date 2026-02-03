@@ -36,13 +36,14 @@ Rails.application.routes.draw do
   namespace :api, format: 'json' do
     namespace :v1 do
       resources :subscriptions, only: :create
-      resources :swatches, only: [:index, :show]
+      resources :swatches, only: [:index, :show, :create]
+      get "fills", to: "fills#my"
 
       devise_scope :user do
         post "sign_up",          to: "registrations#create"
-        get  "authorize_by_jwt", to: "sessions#authorize_by_jwt"
         post "sign_in",          to: "sessions#create"
-        post "sign_out",         to: "sessions#destroy"
+        get  "authorize_by_jwt", to: "sessions#authorize_by_jwt"
+        get  "sign_out",         to: "sessions#destroy"
       end
     end
   end
