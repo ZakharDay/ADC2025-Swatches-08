@@ -25,24 +25,19 @@
         min-height: 120px;
         padding: 4px;
         border-radius: 8px;
-        /* background-color: chartreuse; */
         overflow: hidden;
 
         .A_PromoSwatchFill {
-          width: 33.333333%;
-
-          &:nth-child(1) {
-            background-color: aqua;
+          &:first-child {
             border-radius: 8px 0 0 8px;
           }
 
-          &:nth-child(2) {
-            background-color: antiquewhite;
+          &:last-child {
+            border-radius: 0 8px 8px 0;
           }
 
-          &:nth-child(3) {
-            background-color: aquamarine;
-            border-radius: 0 8px 8px 0;
+          &:only-child {
+            border-radius: 8px;
           }
         }
       }

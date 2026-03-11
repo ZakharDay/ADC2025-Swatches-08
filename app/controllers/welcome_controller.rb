@@ -10,6 +10,9 @@ class WelcomeController < ApplicationController
       token = JWT.encode(payload, jwt_signing_key, 'HS256')
       cookies[:jwt] = token
     end
+
+    @promo_swatches = Swatch.all.sample(3)
+    puts @promo_swatches.as_json(include: { fills: { include: { fill_colors: { include: :color } } } })
   end
 
   def about
