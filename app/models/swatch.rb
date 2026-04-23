@@ -11,4 +11,14 @@ class Swatch < ApplicationRecord
   has_many :comments, as: :commentable
 
   validates :name, presence: true
+
+  # after_create_commit {
+  #   broadcast_append_to(
+  #     "promo_swatch_rail",
+  #     target: "W_PromoSwatchRail",
+  #     partial: "components/O_PromoSwatch",
+  #     locals: { swatch: self }
+  #   )
+  # }
+
 end

@@ -10,4 +10,7 @@
   <%= render "subscriptions/form" %>
 </div>
 
-<%= render partial: "components/S_PromoSwatchSlider", locals: { promo_swatches: @promo_swatches } %>
+<div class="T_WelcomeWidgets">
+  <%= render partial: "components/S_PromoSwatchSlider", locals: { promo_swatches: @promo_swatches } %>
+  <%= render partial: "components/S_PromoFillSlider", locals: { promo_fills: @promo_fills } %>
+</div>

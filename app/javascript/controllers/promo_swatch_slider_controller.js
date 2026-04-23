@@ -12,6 +12,7 @@ export default class extends Controller {
   static values = { index: Number };
 
   initialize() {
+    this.connected = false;
     this.indexValueChanged();
   }
 
@@ -19,6 +20,18 @@ export default class extends Controller {
     this.moveSwatch();
     this.updateMoveButtons();
     this.updateMeatballs();
+  }
+
+  swatchTargetConnected() {
+    if (this.connected) {
+      this.moveSwatch();
+      this.removeFirstSwatch();
+    }
+  }
+
+  connect() {
+    this.connected = true;
+    this.startSlideShow();
   }
 
   prevSwatch() {
@@ -29,12 +42,34 @@ export default class extends Controller {
     this.indexValue++;
   }
 
+  startSlideShow() {
+    const slideshow = setInterval(() => {
+      if (this.indexValue < 2) {
+        this.indexValue++;
+      } else {
+        clearInterval(slideshow);
+      }
+    }, 3000);
+  }
+
   moveSwatch() {
-    this.swatchRailTarget.style.transform = `translateY(${-100 * this.indexValue}%)`;
+    // this.swatchRailTarget.style.transform = `translateY(${-100 * this.indexValue}%)`;
+
+    this.swatchTargets.forEach((swatch) => {
+      swatch.style.transform = `translateY(${-100 * this.indexValue}%)`;
+    });
   }
 
   moveByIndex(event) {
     this.indexValue = event.params.swatchIndex;
+  }
+
+  removeFirstSwatch() {
+    this.swatchTargets[0].classList.add('removing');
+
+    setTimeout(() => {
+      this.swatchTargets[0].remove();
+    }, 300);
   }
 
   updateMoveButtons() {

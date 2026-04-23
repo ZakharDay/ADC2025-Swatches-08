@@ -2,10 +2,10 @@ class Api::V1::SwatchesController < ApplicationController
   include JwtAuth
   
   skip_before_action :verify_authenticity_token
-  before_action :load_user_by_jti, only: :create
+  before_action :load_user_by_jti, only: [:index, :create]
 
   def index
-    @swatches = Swatch.all.limit(8)
+    @swatches = @user.swatches
   end
 
   def show
@@ -17,8 +17,6 @@ class Api::V1::SwatchesController < ApplicationController
       swatch = Swatch.new()
       swatch.name = params[:swatch][:name]
       swatch.user = @user
-
-      puts swatch.to_json
       
       if swatch.save!
         fills = Fill.find(params[:swatch][:fill_ids])
@@ -27,10 +25,17 @@ class Api::V1::SwatchesController < ApplicationController
           swatch.fills << fill
         end
 
+        Turbo::StreamsChannel.broadcast_append_to(
+          "promo_swatch_rail",
+          target: "W_PromoSwatchRail",
+          partial: "components/O_PromoSwatch",
+          locals: { swatch: swatch }
+        )
+
         render json: {
           messages: "Swatch create",
           is_success: true,
-          swatch_id: swatch.id
+          id: swatch.id
         }, status: :ok
       end
     else
